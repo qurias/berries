@@ -1,5 +1,8 @@
 import React from 'react'
-import styled, { css } from 'styled-components';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import styled from 'styled-components';
+import { deleteProductCard } from '../redux/actions/card';
 import { StyledFlex } from '../styled'
 
 const StyledBasket = styled(StyledFlex)`
@@ -18,6 +21,9 @@ const StyledBasket = styled(StyledFlex)`
 const StyledBasketTitle = styled.p`
   font-size: 26px;
   text-align: center;
+  font-family: 'Orelega One', cursive;
+  font-weight: 400;
+  color: #2f4f3c;
 `;
 
 const StyledBasketItems = styled(StyledFlex)`
@@ -28,20 +34,26 @@ const StyledBasketItem = styled(StyledFlex)`
   margin-top: 16px;
   position: relative;
 
-  &:before {
-    content: url(img/main/basket/trash-can.png);
-    position: absolute;
-    left: -18%;
-    top: 0%;
-  }
 `;
 
 const StyledBasketName = styled(StyledFlex)`
   line-height: 21px;
+  font-weight: 700;
+  color: #2f4f3c;
+`;
+
+const StyledBasketItemIcon = styled.img`
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: -18%;
+  top: 0%;
 `;
 
 const StyledBasketAmount = styled(StyledFlex)`
   margin-top: 8px;
+  font-weight: 400;
+  color: #2f4f3c;
 `;
 
 const StyledBasketInfo = styled(StyledFlex)`
@@ -49,9 +61,13 @@ const StyledBasketInfo = styled(StyledFlex)`
 `;
 
 const StyledBasketTotal = styled.p`
-
-`
-const StyledBasketSum = styled.p``;
+  font-weight: 700;
+  color: #2f4f3c;
+`;
+const StyledBasketSum = styled.p`
+  font-weight: 400;
+  color: #2f4f3c;
+`;
 
 const StyledBasketButton = styled.button`
   border-radius: 16px;
@@ -59,34 +75,63 @@ const StyledBasketButton = styled.button`
   height: 49px;
   border: none;
   margin-top: 20px;
+  cursor: pointer;
+  font-size: 18px;
 `;
 
 const StyledBasketButtonBuy = styled(StyledBasketButton)`
   background: #8cc63f;
   color: white;
+  font-weight: 700;
 `;
 
 const StyledBasketButtonBasket = styled(StyledBasketButton)`
   border: 1px solid black;
 `;
 
+
+
 const Basket = () => {
+
+  const dispatch = useDispatch()
+
+  const itemsBasket = useSelector((data) => data.card);
+
+  const totalPrice = useSelector((data) => data.card.totalPrice);
+
+  
+  let arrItemsBasket = []
+
+  itemsBasket.basket.forEach((key) => {
+    arrItemsBasket.push(key);
+  });
+
+  const handleDeleteIcon = (id) => {
+    dispatch(deleteProductCard(id))
+  }
+
+
   return (
     <StyledBasket direction="column">
       <StyledBasketTitle>Корзина</StyledBasketTitle>
       <StyledBasketItems direction="column">
-        <StyledBasketItem direction="column">
-          <StyledBasketName>Свекла + витамин В12 Замороженная</StyledBasketName>
-          <StyledBasketAmount>2 x 26.00₪</StyledBasketAmount>
-        </StyledBasketItem>
-        <StyledBasketItem direction="column">
-          <StyledBasketName>Свекла + витамин В12 Замороженная</StyledBasketName>
-          <StyledBasketAmount>2 x 26.00₪</StyledBasketAmount>
-        </StyledBasketItem>
-        <StyledBasketItem direction="column">
-          <StyledBasketName>Свекла + витамин В12 Замороженная</StyledBasketName>
-          <StyledBasketAmount>2 x 26.00₪</StyledBasketAmount>
-        </StyledBasketItem>
+        {!!arrItemsBasket.length &&
+          arrItemsBasket.map((elem) => {
+            return (
+              <StyledBasketItem direction="column" key={elem.id}>
+                <StyledBasketItemIcon
+                  onClick={() => handleDeleteIcon(elem.id)}
+                  src="img/main/basket/trash-can.png"
+                  width={24}
+                  height={24}
+                />
+                <StyledBasketName>{elem.name}</StyledBasketName>
+                <StyledBasketAmount>
+                  {elem.totalAmount} x {elem.totalPriceItem}₪
+                </StyledBasketAmount>
+              </StyledBasketItem>
+            );
+          })}
       </StyledBasketItems>
       <svg
         width="273"
@@ -103,7 +148,7 @@ const Basket = () => {
       </svg>
       <StyledBasketInfo justify="space-between">
         <StyledBasketTotal>Подытог:</StyledBasketTotal>
-        <StyledBasketSum>184.00₪</StyledBasketSum>
+        <StyledBasketSum>{totalPrice}.00₪</StyledBasketSum>
       </StyledBasketInfo>
       <StyledFlex justify="space-between">
         <StyledBasketButtonBuy>Оплатить</StyledBasketButtonBuy>

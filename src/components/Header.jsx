@@ -1,9 +1,15 @@
 import React from 'react'
 import styled from 'styled-components';
 import { StyledFlex } from '../styled';
-import { LinkMenu } from './LinkMenu';
+import LinkMenu  from './LinkMenu';
 
-const linksMenu = ['Все продукты', 'Рецепты', 'Доставка', 'Оплата', 'Корзина'];
+const linksMenu = [
+  { name: 'Все продукты', href: '/' },
+  { name: 'Рецепты', href: '/recipes' },
+  { name: 'Доставка', href: '/delivery' },
+  { name: 'Оплата', href: '/payment' },
+  { name: 'Корзина', href: '/basket' },
+];
 
 const StyledUl = styled.ul`
   display: flex;
@@ -43,10 +49,14 @@ const Header = () => {
             return index === 2 ? (
               <>
                 <StyledLogo alt="Logo" />
-                <LinkMenu>{elem}</LinkMenu>
+                <LinkMenu href={elem.href} key={index}>
+                  {elem.name}
+                </LinkMenu>
               </>
             ) : (
-              <LinkMenu>{elem}</LinkMenu>
+              <LinkMenu href={elem.href} key={index}>
+                {elem.name}
+              </LinkMenu>
             );
           })}
         </StyledUl>

@@ -18,6 +18,9 @@ const StyledFooterUl = styled.ul`
 const StyledFooterLi = styled.li`
   display: flex;
   margin-top: 20px;
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 800;
 `;
 
 

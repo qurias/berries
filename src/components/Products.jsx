@@ -2,8 +2,9 @@ import React from 'react'
 import styled from 'styled-components';
 import Card from './Card'
 import { StyledFlex } from '../styled';
-import axios from 'axios';
 import Basket from './Basket';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchProducts } from '../redux/actions/products';
 
 const StyledProducts = styled(StyledFlex)`
   margin: 0px 168px;
@@ -16,27 +17,20 @@ const StyledCards = styled(StyledFlex)`
 
 const Products = () => {
 
-    const [products, setProducts] = React.useState(null);
+  const dispatch = useDispatch()
 
-    React.useEffect(() => {
-      axios
-        .get('http://localhost:3000/db.json')
-        .then(({ data }) => {
-          let arrProducts = Object.values(data.products);
-          setProducts(arrProducts);
-        });
-    }, []);
+  React.useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
 
-    
+  const products = useSelector(({ products }) => products.items);
+
   return (
     <StyledProducts>
       <StyledCards wrap="wrap" justify="space-between">
         {products && products.map((product) => {
-          {
-            console.log(product);
-          }
           return (
-            <Card product={product} />
+            <Card product={product} key={product.id}/>
           );
         })}
       </StyledCards>

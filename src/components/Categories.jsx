@@ -5,6 +5,8 @@ const StyledLi = styled.li`
   font-size: 18px;
   color: #2f4f3c;
   margin: 0px 22px;
+  cursor: pointer;
+  font-weight: 600;
 `;
 
 const StyledUl = styled.ul`
@@ -14,14 +16,16 @@ const StyledUl = styled.ul`
 
 const categories = ['Все продукты', 'Ягоды', 'Суперфуд'];
 
-export const Categories = () => {
+const Categories = () => {
   return (
     <div>
       <StyledUl>
-        {categories.map((elem) => {
-          return <StyledLi>{elem}</StyledLi>;
+        {categories.map((elem,index) => {
+          return <StyledLi key={index}>{elem}</StyledLi>;
         })}
       </StyledUl>
     </div>
   );
 }
+
+export default Categories;

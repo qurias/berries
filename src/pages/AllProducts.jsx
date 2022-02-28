@@ -1,8 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
+import React from 'react';
+import styled from 'styled-components';
 import { StyledFlex } from '../styled';
-import { Categories } from './Categories';
-import Products from './Products';
+import { Categories, Products } from '../components';
 
 const StyledMain = styled.main`
   width: 100%;
@@ -17,6 +16,8 @@ const StyledTitle = styled.h1`
   text-align: center;
   margin-top: 293px;
   padding-bottom: 32px;
+  font-family: 'Orelega One', cursive;
+  font-weight: 400;
 `;
 
 const StyledMainWrapper = styled.div`
@@ -34,9 +35,11 @@ const StyledSubTitle = styled.h2`
   font-size: 48px;
   color: #2f4f3c;
   padding-top: 32px;
+  font-family: 'Orelega One', cursive;
+  font-weight: 400;
 `;
 
-const Main = () => {
+const AllProducts = () => {
   return (
     <StyledMain>
       <StyledMainWrapper />
@@ -63,4 +66,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default AllProducts;
